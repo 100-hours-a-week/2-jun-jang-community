@@ -1,0 +1,71 @@
+body {
+    background-color: #F4F5F7;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    width: 80%;
+    margin: 40px auto; /* 상단 여백 추가 */
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+}
+
+.write-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.write-btn:hover {
+    background-color: #0056b3;
+}
+
+.posts-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px; /* 버튼과 게시글 목록 간격 추가 */
+}
+
+.posts-list-container {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* 게시글 사이 여백 추가 */
+}
+
+.post-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px; /* 카드 디자인 더 부드럽게 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 조정 */
+    transition: transform 0.2s ease-in-out;
+}
+
+.post-container:hover {
+    transform: scale(1.02); /* 마우스 오버 시 약간 확대 */
+}
+
+.information {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: gray;
+}
+
+.created-at {
+    font-size: 12px;
+    color: gray;
+    text-align: right;
+    margin-top: 10px;
+}
