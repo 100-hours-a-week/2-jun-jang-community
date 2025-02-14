@@ -1,55 +1,72 @@
+/* 헤더를 최상단에 배치하고 중앙 정렬 */
 header {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: flex-start;
     align-items: center;
     width: 100%;
     padding: 20px 0;
+    position: absolute;
+    top: 0;
 }
+
+/* 전체 화면을 차지하면서 하단 중앙 정렬 */
 body {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    height: 100vh; 
+ 
     background-color: white;
     margin: 0;
-    
-  }
-  .wrap {
+    padding-top: 100px; /* 헤더와 구분선의 공간 확보 */
+}
+
+/* 헤더와 구분선을 감싸는 랩 */
+.wrap {
     display: flex;
     flex-direction: column;
     width: 100%;
     align-items: center;
     background-color: transparent;
-    
-  }
+    position: absolute;
+    top: 80px; /* 헤더와 약간의 공간을 둠 */
+}
+
+/* 구분선 스타일 */
 .horizontal-rule {
     width: 100%;
     height: 1px;
     border: 0;
     background-color: #000;
-    
-  }
-.login-container{
+}
+
+/* 로그인 컨테이너 - 화면 중앙에 위치 */
+.login-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     width: 100%;
     max-width: 400px;
-    padding:30px;
+    padding: 30px;
     border-radius: 10px;
-
+    position: relative;
+    top: 50px; /* 헤더와 구분선보다 아래에 배치 */
 }
-.name{
+
+/* 로그인 제목 스타일 */
+.name {
     font-weight: bold;
 }
 
+/* 로그인 폼 스타일 */
 .login-form {
     display: flex;
     flex-direction: column;
     width: 100%;
 }
 
+/* 입력 필드 스타일 */
 .login-form input {
     width: 100%;
     padding: 10px;
