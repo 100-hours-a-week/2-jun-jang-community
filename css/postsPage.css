@@ -1,0 +1,158 @@
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #F4F5F7;
+    text-align: center;
+    height: 100px;
+    z-index: 1000;
+}
+
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 120vh; 
+    background-color: #F4F5F7;
+}
+
+.container {
+    width: 80%;
+    margin: 20px auto; /* 헤더 아래 공간 확보 */
+    margin-top: 100px; /* 헤더 높이보다 조금 더 큰 마진 */
+}
+
+.header-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;    
+    position: relative;
+    width: auto;
+}
+.header-content h1 {
+    
+    display: inline;
+    width: auto;
+    font-size: 32px;
+    margin-left: 170px;
+    text-align: center;
+    
+}
+
+.header-profile {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%; /* 원형 프로필 */
+    object-fit: cover;
+    cursor: pointer;
+    margin-left: 133px;
+    right: 20px;
+    top: 50%;
+    
+    
+    justify-self: center;
+}
+.header-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    
+    width: 100%;
+}
+.summary{
+    text-align: center;
+    font-size:24px;
+    
+}
+
+.write-container{
+    position:relative;
+    display: flex;
+    justify-content: right;
+    width: 100%;
+    max-width: 600px;
+}
+.write-btn {
+    background-color: #ACA0EB;
+    color: white;
+    border: none;
+    padding: 10px 30px;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.write-btn:hover {
+    background-color: #7F6AEE;
+}
+.horizontal-rule {
+    width: 100%;
+    height: 1px;
+    border: 0;
+    background-color: #000;
+    margin:0;
+}
+.posts-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px; /* 버튼과 게시글 목록 간격 추가 */
+}
+
+.posts-list-container {
+    width: 100%;
+    max-width: 600px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* 게시글 사이 여백 추가 */
+}
+
+.post-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 20px; /* 카드 디자인 더 부드럽게 */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 조정 */
+   
+}
+
+
+
+.information-container {
+    display: flex;
+    justify-content: space-between;
+    font-size: 14px;
+    color: gray;
+}
+.information{
+    display: flex;
+    justify-content: flex-start;;
+    font-size: 14px;
+    gap:10px;
+    color: grey;
+}
+.created-at {
+    font-size: 14px;
+    color: gray;
+    text-align: right;
+    margin-top: 10px;
+}
+.user-container{
+    display: flex;
+    justify-content: left;
+    gap : 10px;
+    font-size: 14px;
+    color: gray;
+    padding-top:10px;
+}
+.profile-img{
+    
+    width: 50px; /* 원하는 크기 지정 */
+    height: 50px;
+    border-radius: 50%; /* 원형으로 자름 */
+    object-fit: cover; /* 이미지가 잘리지 않고 꽉 채워지도록 */
+    background-color: #ccc; /* 이미지가 없을 때 배경색 */
+    
+}
