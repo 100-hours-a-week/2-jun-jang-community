@@ -1,7 +1,8 @@
 // Infinite scroll for dynamically loading post containers
 let currentPage = 1;
 const postsContainer = document.querySelector('.posts-list-container');
-const ButtonContainer = document.querySelector('.write-container')
+const ButtonContainer = document.querySelector('.write-container');
+const profileImage = document.querySelector('.header-profile');
 const postTemplate = {
     title: '제목 1',
     likes: 0,
@@ -12,8 +13,36 @@ const postTemplate = {
     profileImage: '../img/profile.png'
 };
 
+
+const createMenu= ()=>{
+    
+}
+// 메뉴 보이기/숨기기 토글
+profileImage.addEventListener('click', (event) => {
+    const menu = document.createElement('div');
+    const rect = profileImage.getBoundingClientRect();
+
+    menu.classList.add('profile-menu');
+    menu.innerHTML = `
+        <ul>
+            <li class="menu-item">회원정보수정</li>
+            <li class="menu-item">비밀번호수정</li>
+            <li class="menu-item">로그아웃</li>
+        </ul>
+    `;
+    document.body.appendChild(menu);
+    menu.style.top = `${rect.bottom + 5}px`;
+    menu.style.left = `${rect.left}px`;
+    menu.classList.toggle('show');
+    
+    event.stopPropagation(); // 이벤트 전파 방지
+});
+// 외부 클릭 시 메뉴 숨기기
+document.addEventListener('click', () => {
+    menu.classList.remove('show');
+});
 // 게시물 생성
-templatePost = () => {
+const templatePost = () => {
     const postDiv = document.createElement('div');
     postDiv.classList.add('post-container');
     postDiv.innerHTML = `
