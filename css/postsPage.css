@@ -50,11 +50,43 @@ body {
     cursor: pointer;
     margin-left: 133px;
     right: 20px;
-    top: 50%;
-    
+    top: 16px;
+    background-color: black;
     
     justify-self: center;
 }
+.profile-container{
+    position: relative;
+    display: inline-block;
+    justify-content: right;
+    
+}
+.profile-dropdown{
+    margin-left: 30px;
+    display: none;
+    position:absolute;
+    margin-top:8px;
+    z-index: 1;
+    font-weight: 400;
+    background-color: #D9D9D9;
+    max-width: 200px;
+    
+}
+.profile-dropdown a{
+    display : block;
+    text-decoration : none;
+    color : rgb(37, 37, 37);
+    font-size: 12px;
+    padding : 12px 20px;
+  }
+  
+  .profile-dropdown a:hover{
+    background-color : #ececec
+  }
+  
+  
+/*body*/
+
 .header-container {
     position: relative;
     display: flex;
@@ -99,7 +131,7 @@ body {
 .posts-wrap {
     display: flex;
     justify-content: center;
-    margin-top: 20px; /* 버튼과 게시글 목록 간격 추가 */
+    margin-top: 10px; /* 버튼과 게시글 목록 간격 추가 */
 }
 
 .posts-list-container {
@@ -112,10 +144,17 @@ body {
 
 .post-container {
     background-color: white;
-    padding: 20px;
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-top:18px;
+    padding-bottom: 16px;
     border-radius: 20px; /* 카드 디자인 더 부드럽게 */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 조정 */
    
+}
+.post-container h2{
+    margin-bottom:10px;
+    margin-top: 0;
 }
 
 
@@ -132,12 +171,17 @@ body {
     font-size: 14px;
     gap:10px;
     color: grey;
+    margin-bottom: 24px;
+    
+}
+.information p{
+    margin:0;
 }
 .created-at {
     font-size: 14px;
     color: gray;
     text-align: right;
-    margin-top: 10px;
+    margin:0
 }
 .user-container{
     display: flex;
@@ -145,7 +189,7 @@ body {
     gap : 10px;
     font-size: 14px;
     color: gray;
-    padding-top:10px;
+    padding-top:16px;
 }
 .profile-img{
     

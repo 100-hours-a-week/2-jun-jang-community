@@ -3,6 +3,10 @@ let currentPage = 1;
 const postsContainer = document.querySelector('.posts-list-container');
 const ButtonContainer = document.querySelector('.write-container');
 const profileImage = document.querySelector('.header-profile');
+const profileDropdown = document.querySelector('.profile-dropdown');
+const profileModify= document.getElementById("profileModfiy");
+const passwordModfiy=document.getElementById("passwordModfiy");
+const logout =document.getElementById("logout");
 const postTemplate = {
     title: '제목 1',
     likes: 0,
@@ -14,33 +18,29 @@ const postTemplate = {
 };
 
 
-const createMenu= ()=>{
+profileModify.addEventListener('click',()=>{
+    window.location.href="editProfilePage.hrml";
+})
+passwordModfiy.addEventListener('click',()=>{
+    window.location.href="editPasswordePage.hrml";
+})
+logout.addEventListener('click',()=>{
     
-}
-// 메뉴 보이기/숨기기 토글
-profileImage.addEventListener('click', (event) => {
-    const menu = document.createElement('div');
-    const rect = profileImage.getBoundingClientRect();
+})
 
-    menu.classList.add('profile-menu');
-    menu.innerHTML = `
-        <ul>
-            <li class="menu-item">회원정보수정</li>
-            <li class="menu-item">비밀번호수정</li>
-            <li class="menu-item">로그아웃</li>
-        </ul>
-    `;
-    document.body.appendChild(menu);
-    menu.style.top = `${rect.bottom + 5}px`;
-    menu.style.left = `${rect.left}px`;
-    menu.classList.toggle('show');
-    
-    event.stopPropagation(); // 이벤트 전파 방지
+// 프로필 이미지 클릭 시 드롭다운 메뉴 표시 및 토글
+profileImage.addEventListener('click', (event) => {
+    event.stopPropagation(); // 이벤트 버블링 방지
+    profileDropdown.style.display = profileDropdown.style.display === 'block' ? 'none' : 'block';
 });
-// 외부 클릭 시 메뉴 숨기기
-document.addEventListener('click', () => {
-    menu.classList.remove('show');
+
+// 페이지의 다른 부분을 클릭 시 드롭다운 메뉴 숨김
+document.addEventListener('click', (event) => {
+    if (!profileImage.contains(event.target) && !profileDropdown.contains(event.target)) {
+        profileDropdown.style.display = 'none';
+    }
 });
+
 // 게시물 생성
 const templatePost = () => {
     const postDiv = document.createElement('div');
