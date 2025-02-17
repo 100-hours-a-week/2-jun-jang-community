@@ -1,0 +1,36 @@
+
+.post-header{
+    display: flex;
+    flex-direction: column; /* 수직 정렬 */
+    align-items: flex-start; /* 왼쪽 정렬 */
+    
+    width: 100%;
+    margin-top:100px;
+    left: 50%;  
+}
+.post-header h1{
+    left: 50%;
+}
+.profile-container{
+    display: flex;
+    justify-content: space-between; /* 내부 요소 좌우 배치 */
+    align-items: center; /* 세로 정렬 */
+    width: 100%; /* 부모 요소를 꽉 채우도록 */
+}
+.profile-img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+    background-color: black;
+}
+.profile-information {
+    display: flex;
+    align-items: center; /* 세로 정렬 */
+    gap: 10px; /* 요소 간격 */
+}
+.post-buttons {
+    display: flex;
+    gap: 10px; /* 버튼 사이 간격 */
+}

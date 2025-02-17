@@ -12,7 +12,7 @@ passwordModfiy.addEventListener('click',()=>{
     window.location.href="editPasswordePage.hrml";
 })
 logout.addEventListener('click',()=>{
-    
+    window.location.href="loginPage.js"
 })
 
 // 프로필 이미지 클릭 시 드롭다운 메뉴 표시 및 토글

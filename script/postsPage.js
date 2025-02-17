@@ -1,12 +1,13 @@
 // Infinite scroll for dynamically loading post containers
 let currentPage = 1;
 const postsContainer = document.querySelector('.posts-list-container');
-const ButtonContainer = document.querySelector('.write-container');
+const ButtonContainer = document.querySelector('.write-btn');
 const profileImage = document.querySelector('.header-profile');
 const profileDropdown = document.querySelector('.profile-dropdown');
 const profileModify= document.getElementById("profileModfiy");
 const passwordModfiy=document.getElementById("passwordModfiy");
 const logout =document.getElementById("logout");
+
 const postTemplate = {
     title: '제목 1',
     likes: 0,
@@ -17,7 +18,11 @@ const postTemplate = {
     profileImage: '../img/profile.png'
 };
 
-
+document.addEventListener('DOMContentLoaded', () => {
+    for (let i = 0; i < 1; i++) {
+        templatePost();
+    }
+});
 profileModify.addEventListener('click',()=>{
     window.location.href="editProfilePage.hrml";
 })
@@ -25,14 +30,23 @@ passwordModfiy.addEventListener('click',()=>{
     window.location.href="editPasswordePage.hrml";
 })
 logout.addEventListener('click',()=>{
-    
+    window.location.href="loginPage.html"
 })
+
+postsContainer.addEventListener('click', (event) => {
+    const clickedPost = event.target.closest('.post-container');
+    if (clickedPost) {
+        window.location.href = "postPage.html";
+    }
+});
 
 // 프로필 이미지 클릭 시 드롭다운 메뉴 표시 및 토글
 profileImage.addEventListener('click', (event) => {
     event.stopPropagation(); // 이벤트 버블링 방지
     profileDropdown.style.display = profileDropdown.style.display === 'block' ? 'none' : 'block';
 });
+
+
 
 // 페이지의 다른 부분을 클릭 시 드롭다운 메뉴 숨김
 document.addEventListener('click', (event) => {
@@ -73,6 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
         templatePost();
     }
 });
+
 ButtonContainer.addEventListener('click',()=>{
     window.location.href="writePostPage.hrml";
 })
