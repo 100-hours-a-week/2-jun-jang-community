@@ -6,10 +6,10 @@ const passwordModfiy=document.getElementById("passwordModfiy");
 const logout =document.getElementById("logout");
 
 profileModify.addEventListener('click',()=>{
-    window.location.href="editProfilePage.hrml";
+    window.location.href="editProfilePage.html";
 })
 passwordModfiy.addEventListener('click',()=>{
-    window.location.href="editPasswordePage.hrml";
+    window.location.href="editPasswordePage.html";
 })
 logout.addEventListener('click',()=>{
     window.location.href="loginPage.js"

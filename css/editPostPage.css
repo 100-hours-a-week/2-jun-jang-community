@@ -1,0 +1,115 @@
+*{
+    background-color: #F4F5F7;
+}
+
+
+.make-container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding-top: 100px;
+    align-items: center;
+}
+.make-container h1 {
+    margin-bottom: 64px;
+    font-size:24px;
+    font-weight: 700;
+}
+.wirte-post-container{
+    display: flex;
+    flex-direction: column;
+    width:50%;
+    
+}
+.horizontal{
+    margin : 0;
+    width: 100%;
+}
+.write-container{
+    width:100%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 27px;
+}
+.container-title {
+    font-size:16px;
+    font-weight: 700;
+    padding: 0px 24px;
+    margin-bottom:16px;
+}
+.title{
+    height: 64px;
+    width: 100%;
+    border: none;
+    font-weight: 700 ;
+    font-size: 16px;
+    padding:0px 24px;
+}
+
+.wirte-title{
+    display: flex;
+    flex-direction: column;
+    width:100%;
+}
+
+.write-contnt{
+    width:100%;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 27px;
+}
+.content{
+    height: 277px;
+    width: 100%;
+    border: none;
+    font-weight: 700 ;
+    font-size: 16px;
+    padding:24px 24px;
+    text-align: left;
+    vertical-align: top;
+   
+}
+.custom-button-container{
+    padding:0px 24px;
+}
+.help-text{
+    font-size:12px;
+    color:#FF0000;
+    padding :0px 24px;
+    margin-bottom: 11px;
+    margin-top:0;
+}
+.image{
+    padding:0 24px;
+    width:auto;
+    height: 29px;
+    
+}
+.custom-file-upload {
+    display: inline-block;
+    padding: 6px 8px;
+    font-size: 14px;
+    font-weight: bold;
+    color: black;
+    background-color: #ddd;
+    border: 1px solid #888;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+}
+
+
+.file-name{
+    font-size:14px;
+    margin-left: 6px;
+}
+.make-container button{
+    width: 32%;
+    height: 33px;
+    
+    border-radius: 4px;
+    background-color: #7F6AEE;
+    border: none;
+    color:white;
+}
+

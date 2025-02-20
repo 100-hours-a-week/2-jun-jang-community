@@ -1,0 +1,103 @@
+
+
+.make-container{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 160px;
+}
+.make-container h1{
+    font-size:32px;
+    font-weight: 700;
+}
+.edit-profile-container{
+    width:50%;
+}
+
+/* 프로필 사진 스타일 */
+.profile-image-edit-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    align-items: center;
+    width: 100%;
+}
+.profile-image {
+    background-color:gray;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ddd;
+}
+/* 변경 버튼 */
+.change-btn {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: rgba(0, 0, 0, 0.6);
+    color: white;
+    font-size: 12px;
+    padding: 5px 10px;
+    border-radius: 10px;
+    margin-bottom: 10%;
+    cursor: pointer;
+}
+.image-upload {
+    display: none;
+}
+
+/* 입력 필드 */
+.info-section {
+    text-align: left;
+    margin-bottom: 20px;
+}
+.info-title{
+    margin: 8px 0px;
+    font-weight: 700;
+    font-size:15px;
+}
+.info-section label {
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.info-section input {
+    width: 100%;
+    padding: 8px;
+   
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+.help-text{
+    font-size:12px;
+    color:#FF0000;
+    
+    margin-bottom: 11px;
+    margin-top:0;
+}
+/* 버튼 스타일 */
+.submit-btn, .delete-btn {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    font-size: 14px;
+    cursor: pointer;
+}
+.email{
+    margin-bottom: 16px;
+}
+.submit-btn {
+    background-color: #aca0eb;
+    color: white;
+    margin-bottom: 10px;
+    
+}
+
+.delete-btn {
+    background:none;
+    
+}
