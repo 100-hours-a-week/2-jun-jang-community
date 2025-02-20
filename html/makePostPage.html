@@ -1,0 +1,48 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" type="text/css" href="../css/makePostPage.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+
+    <div class="make-container">
+        <h1><strong>게시글 작성</strong></h1>
+        <section class="wirte-post-container">
+            <form class="write-container">
+                <p class="container-title">제목*</p>
+                <hr class="horizontal"/>
+                <input class="title" type="text" id="title"placeholder="제목을 입력해주세요. (최대 26글자)">
+                <hr class="horizontal"/>
+            </form>
+            <form class="write-container">
+                <p class="container-title">내용*</p>
+                <hr class="horizontal"/>
+                <textarea class="content" id="content" placeholder="내용을 입력해주세요."></textarea>
+                <hr class="horizontal"/>
+                <p class="help-text">*helper text</p>
+            </form>
+            <form class="write-container" method="POST" enctype="multipart/form-data">
+                <p class="container-title">이미지*</p>
+                <section class="custom-button-container">
+                    <!-- 실제 input 파일 요소 (숨김) -->
+                    <input class="image" type="file" id="file-upload" name="image-file" hidden>
+                    
+                    <!-- 커스텀 버튼 -->
+                    <label for="file-upload" class="custom-file-upload">파일 선택</label>
+                    
+                    <span id="file-name" class="file-name">파일을 선택해주세요.</span>
+                    
+                    <br><br>
+
+                </section>
+                
+            </form>
+            
+        </section>
+        <button type="submit">완료</button>
+    </div>
+    
+    <script src="../script/makePostPage.js"></script>
+</body>
