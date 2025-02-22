@@ -2,10 +2,8 @@
 let currentPage = 1;
 const postsContainer = document.querySelector('.posts-list-container');
 const ButtonContainer = document.querySelector('.write-btn');
-const profileImage = document.querySelector('.header-profile');
-const profileDropdown = document.querySelector('.profile-dropdown');
-const profileModify= document.getElementById("profileModfiy");
-const passwordModfiy=document.getElementById("passwordModfiy");
+
+
 const logout =document.getElementById("logout");
 
 const postTemplate = {
@@ -18,20 +16,24 @@ const postTemplate = {
     profileImage: '../img/profile.png'
 };
 
+
 document.addEventListener('DOMContentLoaded', () => {
-    for (let i = 0; i < 1; i++) {
-        templatePost();
-    }
+    fetch('header.html') 
+        .then(response => response.text())
+        .then(data => {
+            document.getElementById('header-placeholder').innerHTML = data;
+            loadHeaderScript(); // 스크립트 로드 함수 실행
+        })
+        .catch(error => console.error('헤더를 불러오는 중 오류 발생:', error));
 });
-profileModify.addEventListener('click',()=>{
-    window.location.href="editProfilePage.hrml";
-})
-passwordModfiy.addEventListener('click',()=>{
-    window.location.href="editPasswordePage.hrml";
-})
-logout.addEventListener('click',()=>{
-    window.location.href="loginPage.html"
-})
+
+// header.js를 동적으로 로드하는 함수
+function loadHeaderScript() {
+    const script = document.createElement('script');
+    script.src = '../script/header.js'; // 실제 header.js 경로 확인 필요
+    document.body.appendChild(script);
+}
+
 
 postsContainer.addEventListener('click', (event) => {
     const clickedPost = event.target.closest('.post-container');
@@ -40,20 +42,11 @@ postsContainer.addEventListener('click', (event) => {
     }
 });
 
-// 프로필 이미지 클릭 시 드롭다운 메뉴 표시 및 토글
-profileImage.addEventListener('click', (event) => {
-    event.stopPropagation(); // 이벤트 버블링 방지
-    profileDropdown.style.display = profileDropdown.style.display === 'block' ? 'none' : 'block';
-});
 
 
 
-// 페이지의 다른 부분을 클릭 시 드롭다운 메뉴 숨김
-document.addEventListener('click', (event) => {
-    if (!profileImage.contains(event.target) && !profileDropdown.contains(event.target)) {
-        profileDropdown.style.display = 'none';
-    }
-});
+
+
 
 // 게시물 생성
 const templatePost = () => {

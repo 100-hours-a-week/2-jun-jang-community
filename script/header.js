@@ -1,8 +1,8 @@
 
 const profileImage = document.querySelector('.header-profile');
 const profileDropdown = document.querySelector('.profile-dropdown');
-const profileModify= document.getElementById("profileModfiy");
-const passwordModfiy=document.getElementById("passwordModfiy");
+const profileModify= document.getElementById("profileModify");
+const passwordModfiy=document.getElementById("passwordModify");
 const logout =document.getElementById("logout");
 
 profileModify.addEventListener('click',()=>{

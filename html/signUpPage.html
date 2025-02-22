@@ -1,0 +1,45 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" type="text/css" href="../css/signUpPage.css">
+</head>
+<body>
+    <div id="header-placeholder"></div>
+    <div class="make-container">
+        <h1><strong>회원가입</strong></h1>
+        <section class="make-profile-container">
+            <p class="info-title">프로필 사진</p>
+            <p class="help-text">* helper text</p>
+            <form class="profile-image-edit-container">
+                <img id="profile-image" class="profile-image"src="default-profile.png">
+                <label for="image-upload" class="change-btn">+</label>
+                <input type="file" id="image-upload" class="image-upload" accept="image/*">
+            </form>
+           
+            
+             
+            <div class="info-section">
+                <p class="info-title">이메일</p>
+                <input type="text" id="email" placeholder="이메일을 입력하세요">
+                <p class="help-text">* helper text</p>
+                <p class="info-title">비밀번호</p>
+                <input type="password" id="password" placeholder="비밀번호를 입력하세요">
+                <p class="help-text">* helper text</p>
+                <p class="info-title">비밀번호 확인</p>
+                <input type="password" id="passwordConfirm"placeholder="비밀번호를 한번 더 입력하세요" >
+                <p class="help-text">* helper text</p>
+                <p class="info-title">닉네임</p>
+                <input type="text" id="nickname" placeholder="닉네임을 입력하세요">
+                <p class="help-text">* helper text</p>
+            </div>
+            <button class="signIn-btn">회원가입</button>
+            <button class="login-btn">로그인하러가기</button>
+
+            
+        </div>
+        
+        
+    </div>
+    <script src="../script/signUpPage.js"></script>
+</body>

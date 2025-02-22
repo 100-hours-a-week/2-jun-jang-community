@@ -13,7 +13,7 @@
     font-size:32px;
     font-weight: 700;
 }
-.edit-profile-container{
+.make-profile-container{
     width:50%;
 }
 
@@ -27,7 +27,7 @@
     width: 100%;
 }
 .profile-image {
-    background-color:gray;
+    background-color:#C4C4C4;
     width: 120px;
     height: 120px;
     border-radius: 50%;
@@ -40,11 +40,11 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: rgba(0, 0, 0, 0.6);
-    color: white;
-    font-size: 12px;
-    padding: 5px 10px;
-    border-radius: 10px;
+    background: none;
+    color: black;
+    font-size: 50px;
+    
+   
     cursor: pointer;
 }
 
@@ -82,7 +82,7 @@
     margin-top:0;
 }
 /* 버튼 스타일 */
-.submit-btn, .delete-btn {
+.signIn-btn, .login-btn {
     width: 100%;
     padding: 10px;
     border: none;
@@ -93,14 +93,16 @@
 .email{
     margin-bottom: 16px;
 }
-.submit-btn {
+.signIn-btn {
     background-color: #aca0eb;
     color: white;
     margin-bottom: 10px;
     
 }
 
-.delete-btn {
+.login-btn {
     background:none;
     
 }
+
+
