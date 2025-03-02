@@ -1,19 +1,21 @@
-
 const profileImage = document.querySelector('.header-profile');
 const profileDropdown = document.querySelector('.profile-dropdown');
-const profileModify= document.getElementById("profileModify");
-const passwordModfiy=document.getElementById("passwordModify");
-const logout =document.getElementById("logout");
+const profileModify = document.getElementById("profileModify");
+const passwordModify = document.getElementById("passwordModify");
+const logout = document.getElementById("logout");
+const backButton = document.querySelector('.back-button'); // 뒤로 가기 버튼 선택
 
-profileModify.addEventListener('click',()=>{
-    window.location.href="editProfilePage.html";
-})
-passwordModfiy.addEventListener('click',()=>{
-    window.location.href="editPasswordePage.html";
-})
-logout.addEventListener('click',()=>{
-    window.location.href="loginPage.js"
-})
+profileModify.addEventListener('click', () => {
+    window.location.href = "editProfilePage.html";
+});
+
+passwordModify.addEventListener('click', () => {
+    window.location.href = "editPasswordPage.html";
+});
+
+logout.addEventListener('click', () => {
+    window.location.href = "loginPage.js";
+});
 
 // 프로필 이미지 클릭 시 드롭다운 메뉴 표시 및 토글
 profileImage.addEventListener('click', (event) => {
@@ -27,3 +29,10 @@ document.addEventListener('click', (event) => {
         profileDropdown.style.display = 'none';
     }
 });
+
+// 뒤로 가기 버튼 클릭 시 이전 페이지로 이동
+if (backButton) {
+    backButton.addEventListener('click', () => {
+        window.history.back();
+    });
+}

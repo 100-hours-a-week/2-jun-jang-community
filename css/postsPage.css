@@ -238,3 +238,6 @@ body {
 .profile-menu li:hover {
     background-color: #bfbfbf;
 }
+#header-placeholder a:first-child {
+    display: none !important;
+}

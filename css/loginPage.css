@@ -88,3 +88,8 @@ body {
 .signup-text{
     text-align: center;
 }
+
+#header-placeholder .header-profile, 
+#header-placeholder a:first-child {
+    display: none !important;
+}
