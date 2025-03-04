@@ -14,7 +14,7 @@ passwordModify.addEventListener('click', () => {
 });
 
 logout.addEventListener('click', () => {
-    window.location.href = "loginPage.js";
+    window.location.href = "loginPage.html";
 });
 
 // 프로필 이미지 클릭 시 드롭다운 메뉴 표시 및 토글

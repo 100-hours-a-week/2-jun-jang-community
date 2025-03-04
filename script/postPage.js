@@ -1,6 +1,7 @@
 document.addEventListener("DOMContentLoaded", async () => {
     const API_BASE_URL = "http://localhost:3000";
     
+    // DOM 요소들
     const postTitle = document.querySelector(".post-header h1");
     const profileImg = document.querySelector(".profile-img");
     const writer = document.querySelector(".writer");
@@ -14,11 +15,19 @@ document.addEventListener("DOMContentLoaded", async () => {
     const commentForm = document.querySelector(".comment-write");
     const commentInput = document.getElementById("comment");
 
-    // URL에서 postId 가져오기
+    // 수정 및 삭제 버튼
+    const editButtons = document.querySelectorAll(".edit-button");
+    const deleteButtons = document.querySelectorAll(".delete-button");
+
+    // 이미지 파일 업로드 처리
+    const fileInput = document.querySelector("#file-upload");
+
+    // URL에서 postId와 userId 가져오기
     const urlParams = new URLSearchParams(window.location.search);
     const postId = urlParams.get("postId");
+    const currentUserId = urlParams.get("userId"); // URL에서 userId 가져오기
 
-    /** **헤더 불러오는 함수** */
+    
     async function loadHeader() {
         return new Promise((resolve) => {
             fetch("header.html")
@@ -39,12 +48,14 @@ document.addEventListener("DOMContentLoaded", async () => {
         document.body.appendChild(script);
     }
 
-    /** **계절별 기본 데이터 설정** */
+   
     const seasonData = {
         0: { // 봄
+            postId:0,
             title: "봄의 시작",
             content: "봄이 오면 따뜻한 햇살과 함께 벚꽃이 피어나고, 세상이 다시 살아나는 것 같아요. 겨울의 차가움을 이겨내고 피어나는 꽃들은 우리에게 희망을 줍니다. 공원에서 봄바람을 맞으며 산책을 하거나, 카페에서 봄 한정 메뉴를 즐기는 것도 참 좋죠.",
             image: "../img/spring.jpg",
+            userId: 1,
             likes: Math.floor(Math.random() * 50) + 100,
             views: Math.floor(Math.random() * 300) + 500,
             comments: [
@@ -54,9 +65,11 @@ document.addEventListener("DOMContentLoaded", async () => {
             ]
         },
         1: { // 여름
+            postId:1,
             title: "여름의 열기",
             content: "여름은 뜨거운 태양과 시원한 바다를 떠올리게 합니다. 친구들과 함께 해변에서 수영을 하고, 바베큐 파티를 열어 즐기는 것도 여름의 묘미죠. 아이스크림을 한입 베어물 때 느껴지는 달콤함과 함께 여름의 더위를 이겨내요!",
             image: "../img/summer.jpg",
+            userId: 2,
             likes: Math.floor(Math.random() * 50) + 200,
             views: Math.floor(Math.random() * 300) + 800,
             comments: [
@@ -66,9 +79,11 @@ document.addEventListener("DOMContentLoaded", async () => {
             ]
         },
         2: { // 가을
+            postId:2,
             title: "가을의 낭만",
             content: "가을이 되면 나뭇잎들이 붉게 물들고, 바람이 선선해집니다. 독서하기 좋은 계절이며, 가을밤에 따뜻한 커피 한 잔과 함께 분위기 있는 음악을 듣는 것도 좋습니다. 단풍이 가득한 산책길을 걸으며 계절의 변화를 만끽해보세요",
             image: "../img/autumn.jpg",
+            userId: 3,
             likes: Math.floor(Math.random() * 50) + 150,
             views: Math.floor(Math.random() * 300) + 700,
             comments: [
@@ -78,9 +93,11 @@ document.addEventListener("DOMContentLoaded", async () => {
             ]
         },
         3: { // 겨울
+            postId:3,
             title: "겨울의 마법",
             content: "겨울은 눈 내리는 풍경과 함께 포근한 분위기를 줍니다. 크리스마스와 연말이 다가오면 따뜻한 코코아 한 잔을 마시며 가족과 함께 시간을 보내는 것이 가장 행복한 순간이죠. 겨울에는 스키와 썰매 타는 재미도 빼놓을 수 없습니다!",
             image: "../img/winter.jpg",
+            userId: 4,
             likes: Math.floor(Math.random() * 50) + 120,
             views: Math.floor(Math.random() * 300) + 600,
             comments: [
@@ -91,7 +108,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         }
     };
 
-    /** **게시글 데이터 가져오기** */
+   
     async function fetchPostData(postId) {
         try {
             const response = await fetch(`${API_BASE_URL}/posts/${postId}`, {
@@ -116,6 +133,38 @@ document.addEventListener("DOMContentLoaded", async () => {
             visitCount.textContent = data.views;
             commentCount.textContent = data.comments.length;
 
+            
+            if (data.userId === Number(currentUserId)) {
+                // 수정 및 삭제 버튼 표시
+                editButtons.forEach(button => button.style.display = 'inline-block');
+                deleteButtons.forEach(button => button.style.display = 'inline-block');
+
+                
+                editButtons.forEach(button => {
+                    button.addEventListener("click", () => {
+                        localStorage.setItem("postId", data.postId); // 해당 게시글 ID 저장
+                        localStorage.setItem("postTitle", data.title); // 제목 저장
+                        localStorage.setItem("postContent", data.content); // 내용 저장
+                        localStorage.setItem("articleImg",data.image);
+                        localStorage.setItem("userId",currentUserId);
+                        window.location.href = "editPostPage.html"; // 수정 페이지로 이동
+                    });
+                });
+
+              
+                deleteButtons.forEach(button => {
+                    button.addEventListener("click", () => {
+                        if (confirm("정말로 게시물을 삭제하시겠습니까?")) {
+                            deletePost(postId);
+                        }
+                    });
+                });
+            } else {
+                
+                editButtons.forEach(button => button.style.display = 'none');
+                deleteButtons.forEach(button => button.style.display = 'none');
+            }
+
             fetchComments(postId); // 댓글 불러오기
         } catch (error) {
             console.error("게시글 조회 실패, 기본 계절 데이터 적용");
@@ -130,99 +179,129 @@ document.addEventListener("DOMContentLoaded", async () => {
             articleContent.textContent = season.content;
             likeCount.textContent = season.likes;
             visitCount.textContent = season.views;
+            
+            if (season.userId === Number(currentUserId)) {
+                
+                editButtons.forEach(button => button.style.display = 'inline-block');
+                deleteButtons.forEach(button => button.style.display = 'inline-block');
 
+                
+                editButtons.forEach(button => {
+                    button.addEventListener("click", () => {
+                        localStorage.setItem("postId", season.postId); // 해당 게시글 ID 저장
+                        localStorage.setItem("postTitle", season.title); // 제목 저장
+                        localStorage.setItem("postContent", season.content); // 내용 저장
+                        localStorage.setItem("articleImg",season.image);
+                        localStorage.setItem("userId",currentUserId);
+                        window.location.href = "editPostPage.html"; // 수정 페이지로 이동
+                    });
+                });
+
+                
+                deleteButtons.forEach(button => {
+                    button.addEventListener("click", () => {
+                        if (confirm("정말로 게시물을 삭제하시겠습니까?")) {
+                            deletePost(postId);
+                        }
+                    });
+                });
+            } else {
+                
+                editButtons.forEach(button => button.style.display = 'none');
+                deleteButtons.forEach(button => button.style.display = 'none');
+            }
             fetchComments(postId, true); // API 실패 시 기본 댓글 사용
         }
     }
 
-    //** **댓글 데이터 가져오기** */
-async function fetchComments(postId) {
-    try {
-        const response = await fetch(`${API_BASE_URL}/posts/${postId}/comment?page=1&offset=5`, {
-            method: "GET",
-            headers: {
-                "Authorization": `Bearer ${localStorage.getItem("jwtToken")}`
-            }
-        });
+    
+    async function fetchComments(postId) {
+        try {
+            const response = await fetch(`${API_BASE_URL}/posts/${postId}/comment?page=1&offset=5`, {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${localStorage.getItem("jwtToken")}`
+                }
+            });
 
-        if (!response.ok) throw new Error("댓글 API 요청 실패");
+            if (!response.ok) throw new Error("댓글 API 요청 실패");
 
-        const data = await response.json();
-        console.log("댓글 조회 성공:", data);
+            const data = await response.json();
+            console.log("댓글 조회 성공:", data);
 
-        commentsContainer.innerHTML = "";
-        data.forEach(comment => {
-            addCommentElement(comment, false); // 실제 댓글 (수정/삭제 버튼 O)
-        });
+            commentsContainer.innerHTML = "";
+            data.forEach(comment => {
+                addCommentElement(comment, false); // 실제 댓글 (수정/삭제 버튼 O)
+            });
 
-        commentCount.textContent = data.length;
-    } catch (error) {
-        console.error("댓글 조회 실패, 기본 계절 댓글 적용");
+            commentCount.textContent = data.length;
+        } catch (error) {
+            console.error("댓글 조회 실패, 기본 계절 댓글 적용");
 
-        const season = seasonData[postId] || seasonData[0];
+            const season = seasonData[postId] || seasonData[0];
 
-        commentsContainer.innerHTML = "";
-        season.comments.forEach(commentText => {
-            addCommentElement({
-                commentSeq: `temp-${Date.now()}`,
-                username: "익명 사용자",
-                date: new Date().toISOString(),
-                content: commentText
-            }, true); // 기본 댓글 (수정/삭제 버튼 X)
-        });
+            commentsContainer.innerHTML = "";
+            season.comments.forEach(commentText => {
+                addCommentElement({
+                    commentSeq: `temp-${Date.now()}`,
+                    username: "익명 사용자",
+                    date: new Date().toISOString(),
+                    content: commentText
+                }, true); // 기본 댓글 (수정/삭제 버튼 X)
+            });
 
-        commentCount.textContent = season.comments.length;
+            commentCount.textContent = season.comments.length;
+        }
     }
-}
 
-/** **댓글을 HTML에 추가하는 함수** */
-function addCommentElement(comment, isDefault = false) {
-    const commentDiv = document.createElement("section");
-    commentDiv.classList.add("comment-container");
-    commentDiv.dataset.commentSeq = comment.commentSeq;
+    
+    function addCommentElement(comment, isDefault = false) {
+        const commentDiv = document.createElement("section");
+        commentDiv.classList.add("comment-container");
+        commentDiv.dataset.commentSeq = comment.commentSeq;
 
-    commentDiv.innerHTML = `
-        <div class="comment-information">
-            <div class="comment-profile">
-                <img src="../img/profile.png" class="profile-img"/>
-                <p class="writer"><strong>${comment.username}</strong></p>
-                <p class="created-at">${new Date(comment.date).toLocaleString()}</p>
+        commentDiv.innerHTML = `
+            <div class="comment-information">
+                <div class="comment-profile">
+                    <img src="../img/profile.png" class="profile-img"/>
+                    <p class="writer"><strong>${comment.username}</strong></p>
+                    <p class="created-at">${new Date(comment.date).toLocaleString()}</p>
+                </div>
+                <p class="comment-content">${comment.content}</p>
             </div>
-            <p class="comment-content">${comment.content}</p>
-        </div>
-    `;
-
-    // 기본 댓글이 아닐 경우(=실제 사용자가 남긴 댓글) 수정/삭제 버튼 추가
-    if (!isDefault) {
-        const buttonsDiv = document.createElement("div");
-        buttonsDiv.classList.add("comment-buttons");
-        buttonsDiv.innerHTML = `
-            <button class="edit-button">수정</button>
-            <button class="delete-button">삭제</button>
         `;
 
-        // 수정 버튼 이벤트 추가
-        buttonsDiv.querySelector(".edit-button").addEventListener("click", () => {
-            const newContent = prompt("새로운 댓글을 입력하세요:", comment.content);
-            if (newContent) {
-                editComment(comment.commentSeq, newContent);
-            }
-        });
+       
+        if (!isDefault) {
+            const buttonsDiv = document.createElement("div");
+            buttonsDiv.classList.add("comment-buttons");
+            buttonsDiv.innerHTML = `
+                <button class="edit-button">수정</button>
+                <button class="delete-button">삭제</button>
+            `;
 
-        // 삭제 버튼 이벤트 추가
-        buttonsDiv.querySelector(".delete-button").addEventListener("click", () => {
-            if (confirm("정말로 댓글을 삭제하시겠습니까?")) {
-                deleteComment(comment.commentSeq);
-            }
-        });
+            
+            buttonsDiv.querySelector(".edit-button").addEventListener("click", () => {
+                const newContent = prompt("새로운 댓글을 입력하세요:", comment.content);
+                if (newContent) {
+                    editComment(comment.commentSeq, newContent);
+                }
+            });
 
-        commentDiv.appendChild(buttonsDiv);
+            
+            buttonsDiv.querySelector(".delete-button").addEventListener("click", () => {
+                if (confirm("정말로 댓글을 삭제하시겠습니까?")) {
+                    deleteComment(comment.commentSeq);
+                }
+            });
+
+            commentDiv.appendChild(buttonsDiv);
+        }
+
+        commentsContainer.prepend(commentDiv);
     }
 
-    commentsContainer.prepend(commentDiv);
-}
-
-    /** **댓글 추가하기 (POST 요청) - 실패 시 로컬에 추가** */
+   
     async function postComment(content) {
         const tempComment = {
             commentSeq: `temp-${Date.now()}`, // 임시 ID (API 실패 시 삭제할 수 있도록 설정)
@@ -259,7 +338,7 @@ function addCommentElement(comment, isDefault = false) {
         }
     }
 
-    /** **댓글 수정하기 (PUT 요청)** */
+   
     async function editComment(commentSeq, newContent) {
         try {
             const response = await fetch(`${API_BASE_URL}/posts/${postId}/comments/${commentSeq}`, {
@@ -281,7 +360,7 @@ function addCommentElement(comment, isDefault = false) {
         }
     }
 
-    /** **댓글 삭제하기 (DELETE 요청)** */
+    
     async function deleteComment(commentSeq) {
         try {
             const response = await fetch(`${API_BASE_URL}/posts/${postId}/comments/${commentSeq}`, {
@@ -302,8 +381,6 @@ function addCommentElement(comment, isDefault = false) {
     }
 
     
-
-    /** **임시 댓글을 실제 댓글 데이터로 교체하는 함수** */
     function replaceTempComment(tempId, actualComment) {
         const tempComment = document.querySelector(`[data-comment-seq="${tempId}"]`);
         if (tempComment) {
@@ -314,7 +391,6 @@ function addCommentElement(comment, isDefault = false) {
         }
     }
 
-    /** **댓글 입력 폼 이벤트 리스너** */
     commentForm.addEventListener("submit", (event) => {
         event.preventDefault();
         const content = commentInput.value.trim();
@@ -324,7 +400,8 @@ function addCommentElement(comment, isDefault = false) {
         }
         postComment(content);
     });
-    /** **초기 데이터 로드** */
+
+   
     await loadHeader();
     await fetchPostData(postId);
 });

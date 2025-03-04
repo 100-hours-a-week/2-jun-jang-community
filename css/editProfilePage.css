@@ -104,3 +104,32 @@
     background:none;
     
 }
+.toast-message {
+    visibility: hidden; /* 기본적으로 숨김 */
+    min-width: 250px;
+    margin-left: -125px; /* 화면 중앙에 배치 */
+    background-color: #ACA0EB; /* 초록색 배경 */
+    color: white;
+    text-align: center;
+    border-radius: 30px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    bottom: 30px;
+    font-size: 17px;
+    box-shadow: 0px 2px 10px rgba(0,0,0,0.3);
+}
+
+/* 토스트 메시지 보이게 하기 */
+.toast-message.show {
+    visibility: visible;
+    animation: fadeInOut 3s ease-out;
+}
+
+/* 토스트 메시지 애니메이션 (페이드 인/아웃) */
+@keyframes fadeInOut {
+    0% { bottom: 0; opacity: 0; }
+    50% { bottom: 30px; opacity: 1; }
+    100% { bottom: 0; opacity: 0; }
+}

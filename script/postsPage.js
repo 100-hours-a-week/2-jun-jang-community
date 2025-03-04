@@ -7,10 +7,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     let userProfile = null; // 사용자 프로필 데이터 저장
     let currentPage = 1; // 페이지네이션 변수
 
-    // **JWT 토큰 가져오기 (실제 로그인 구현 시 localStorage에 저장한다고 가정)**
+    
     const jwtToken = localStorage.getItem("jwtToken"); 
 
-    /** 1. **프로필 조회 API 호출 (실패 시 기본 프로필 이미지 설정)** */
+  
     async function fetchUserProfile() {
         try {
             const response = await fetch(`${API_BASE_URL}/users/profile`, {
@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", async () => {
             const data = await response.json();
             console.log("프로필 조회 성공:", data);
     
-            // 프로필 이미지 요소가 존재하는지 확인 후 적용
+           
             const profileImage = document.querySelector('.header-profile');
             if (profileImage) {
                 profileImage.src = data.profileImageUrl;
@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 profileImageUrl: "../img/profile.png"
             };
     
-            // 프로필 이미지 요소가 존재하는지 확인 후 적용
+           
             const profileImage = document.querySelector('.header-profile');
             if (profileImage) {
                 profileImage.src = userProfile.profileImageUrl;
@@ -54,7 +54,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
     
 
-    /** 2. **게시물 리스트 조회 API 호출 (실패 시 기본 게시글 설정)** */
+    
     async function fetchPosts(page = 1, offset = 10) {
         try {
             const response = await fetch(`${API_BASE_URL}/posts?page=${page}&offset=${offset}`, {
@@ -74,24 +74,67 @@ document.addEventListener("DOMContentLoaded", async () => {
             console.error("게시글 조회 실패, 기본 게시글 생성");
 
             // 기본 게시글 5개 생성
-            for (let i = 0; i < 5; i++) {
-                createPostElement({
-                    postId: i,
-                    title: `임시 제목 ${i + 1}`,
-                    likes: Math.floor(Math.random() * 100),
-                    comments: Math.floor(Math.random() * 50),
-                    views: Math.floor(Math.random() * 500),
-                    date: "2025-03-02 12:00:00",
-                    username: "익명 사용자",
-                    profileImageUrl: "../img/profile.png"
-                });
+            for (let i = 0; i < 4; i++) {
+                switch(i){
+                    case 0:
+                        createPostElement({
+                            postId: i,
+                            title: `봄의 시작`,
+                            likes: Math.floor(Math.random() * 100),
+                            comments: Math.floor(Math.random() * 50),
+                            views: Math.floor(Math.random() * 500),
+                            date: "2025-03-02 12:00:00",
+                            username: "익명 사용자",
+                            profileImageUrl: "../img/profile.png"
+                        });
+                        break;
+                    case 1:
+                        createPostElement({
+                            postId: i,
+                            title: `여름의 열기`,
+                            likes: Math.floor(Math.random() * 100),
+                            comments: Math.floor(Math.random() * 50),
+                            views: Math.floor(Math.random() * 500),
+                            date: "2025-03-02 12:00:00",
+                            username: "익명 사용자",
+                            profileImageUrl: "../img/profile.png"
+                        });
+                        break;
+                    case 2:
+                        createPostElement({
+                            postId: i,
+                            title: `가을의 낭만`,
+                            likes: Math.floor(Math.random() * 100),
+                            comments: Math.floor(Math.random() * 50),
+                            views: Math.floor(Math.random() * 500),
+                            date: "2025-03-02 12:00:00",
+                            username: "익명 사용자",
+                            profileImageUrl: "../img/profile.png"
+                        });
+                        break;
+                    case 3:
+                        createPostElement({
+                            postId: i,
+                            title: `겨울의 마법`,
+                            likes: Math.floor(Math.random() * 100),
+                            comments: Math.floor(Math.random() * 50),
+                            views: Math.floor(Math.random() * 500),
+                            date: "2025-03-02 12:00:00",
+                            username: "익명 사용자",
+                            profileImageUrl: "../img/profile.png"
+                        });
+                        break;
+                
+                }
+                
             }
         }
     }
 
-   /** 3. **게시물 HTML 동적 생성 함수** */
+   
     function createPostElement(post) {
         const postDiv = document.createElement('div');
+        const userId=1;
         postDiv.classList.add('post-container');
         postDiv.setAttribute("data-post-id", post.postId); // postId 저장
 
@@ -118,19 +161,18 @@ document.addEventListener("DOMContentLoaded", async () => {
         // 게시물을 클릭하면 해당 postId를 포함하여 postPage.html로 이동
         postDiv.addEventListener("click", () => {
             const postId = postDiv.getAttribute("data-post-id");
-            window.location.href = `postPage.html?postId=${postId}`;
+            window.location.href = `postPage.html?postId=${postId}&userId=${userId}`;
         });
 
         postsContainer.appendChild(postDiv);
     }
 
 
-    /** 4. **게시글 작성 페이지 이동** */
     writeButton.addEventListener("click", () => {
-        window.location.href = "writePostPage.html";
+        window.location.href = "makePostPage.html";
     });
 
-    /** 5. **무한 스크롤 이벤트 (추가 게시글 로딩)** */
+ 
     window.addEventListener("scroll", () => {
         if (window.innerHeight + window.scrollY >= document.body.offsetHeight - 100) {
             currentPage++;
@@ -157,7 +199,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 
     
-    /** 6. **초기 데이터 로드** */
+   
     await loadHeader();
     await fetchUserProfile(); // 프로필 불러오기
     await fetchPosts(); // 게시물 불러오기
