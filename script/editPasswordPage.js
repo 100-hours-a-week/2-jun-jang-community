@@ -6,99 +6,94 @@ document.addEventListener('DOMContentLoaded', () => {
             loadHeaderScript(); // 스크립트 로드 함수 실행
         })
         .catch(error => console.error('헤더를 불러오는 중 오류 발생:', error));
-     // 비밀번호와 비밀번호 확인 영역의 help-text 요소 가져오기
-     const helpTextPassword = document.getElementById('password-help');
-     const helpTextConfirm = document.getElementById('password-confirm-help');
+     
+    const helpTextPassword = document.getElementById('password-help');
+    const helpTextConfirm = document.getElementById('password-confirm-help');
 
-     // help-text 초기화
-     helpTextPassword.textContent = '';
-     helpTextConfirm.textContent = '';
-    // 수정하기 버튼 클릭 시
-    document.querySelector('.submit-btn').addEventListener('click', function () {
+    helpTextPassword.textContent = '';
+    helpTextConfirm.textContent = '';
+    
+    document.querySelector('.submit-btn').addEventListener('click', async function () {
         const password = document.getElementById('password').value;
         const passwordConfirm = document.getElementById('passwordConfirm').value;
         
-       
-        if(password==''){
+        if (password === '') {
             helpTextPassword.textContent = '비밀번호를 입력해주세요';
             helpTextConfirm.textContent = '';
             return;
-        }
-        else if(passwordConfirm==''){
+        } else if (passwordConfirm === '') {
             helpTextPassword.textContent = '';
-            helpTextConfirm.textContent = '비밀번호를 한번 더  입력해주세요';
+            helpTextConfirm.textContent = '비밀번호를 한번 더 입력해주세요';
             return;
-        }
-        // 비밀번호와 비밀번호 확인 일치 여부 체크
-        else if (password !== passwordConfirm) {
-            helpTextPassword.textContent = '비밀번호 확인과 다릅니다';  // *help-text 수정
-            helpTextConfirm.textContent = '비밀번호와 다릅니다.';  // *help-text 수정
+        } else if (password !== passwordConfirm) {
+            helpTextPassword.textContent = '비밀번호 확인과 다릅니다';
+            helpTextConfirm.textContent = '비밀번호와 다릅니다.';
             return;
         }
 
-        // 비밀번호 유효성 검사: 비밀번호 길이, 특수문자, 숫자 포함 여부
         const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,20}$/;
         if (!passwordRegex.test(password)) {
-            helpTextPassword.textContent = '비밀번호는 8자 이상 20자 이하로, 숫자와 특수문자를 포함해야 합니다.';  // *help-text 수정
+            helpTextPassword.textContent = '비밀번호는 8자 이상 20자 이하로, 숫자와 특수문자를 포함해야 합니다.';
             return;
         }
 
-        // API 요청
-        fetch('/users/password', {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': 'Bearer xxxxx' // 실제 Authorization 토큰 사용
-            },
-            body: JSON.stringify({
-                password: password
-            })
-        })
-        .then(response => {
+        const accessToken = getCookie('accessToken');
+        const refreshToken = getCookie('refreshToken');
+        
+        if (!accessToken || !refreshToken) {
+            console.error('토큰이 없습니다. 로그인 필요');
+            return;
+        }
+
+        try {
+            const response = await fetch('http://localhost:8080/users/password', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${accessToken}`,
+                    'refreshToken': refreshToken
+                },
+                body: JSON.stringify({ password })
+            });
+
             if (!response.ok) {
                 throw new Error('비밀번호 수정 실패');
             }
-            return response.json();
-        })
-        .then(data => {
-            // 성공 시 토스트 메시지 표시
-            const toast = document.getElementById('toast-message');
-            toast.className = 'toast-message show';
 
-            setTimeout(() => {
-                toast.className = toast.className.replace('show', '');
-            }, 3000);
-
-            // *help-text에 성공 메시지 업데이트
+            const data = await response.json();
+            console.log('비밀번호 변경 성공:', data);
+            
+            showToast('비밀번호 변경 완료');
+            
             helpTextPassword.textContent = '';
             helpTextConfirm.textContent = '';
-        })
-        .catch(error => {
-            const toast = document.getElementById('toast-message');
-            toast.className = 'toast-message show';
 
             setTimeout(() => {
-                toast.className = toast.className.replace('show', '');
+                window.location.href = 'postsPage.html';
             }, 3000);
-            // 오류 발생 시에도 *help-text에 오류 메시지 표시
-            helpTextPassword.textContent = '';
-            helpTextConfirm.textContent = '';
+        } catch (error) {
             console.error('비밀번호 수정 중 오류 발생:', error);
-        });
+            showToast('비밀번호 변경 실패');
+        }
     });
 });
 
-// header.js를 동적으로 로드하는 함수
 function loadHeaderScript() {
     const script = document.createElement('script');
-    script.src = '../script/header.js'; // 실제 header.js 경로 확인 필요
+    script.src = '../script/header.js';
     document.body.appendChild(script);
 }
 
+function getCookie(name) {
+    const matches = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
+    return matches ? decodeURIComponent(matches[1]) : null;
+}
 
-// header.js를 동적으로 로드하는 함수
-function loadHeaderScript() {
-    const script = document.createElement('script');
-    script.src = '../script/header.js'; // 실제 header.js 경로 확인 필요
-    document.body.appendChild(script);
+function showToast(message) {
+    const toast = document.getElementById('toast-message');
+    toast.textContent = message;
+    toast.classList.add('show');
+    setTimeout(() => {
+        toast.classList.remove('show');
+    }, 3000);
 }

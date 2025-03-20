@@ -1,3 +1,5 @@
+
+
 document.addEventListener('DOMContentLoaded', () => {
     fetch('header.html') 
         .then(response => response.text())
@@ -24,7 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // 회원가입 버튼 클릭 시
-    document.querySelector('.signIn-btn').addEventListener('click', function () {
+    document.querySelector('.signIn-btn').addEventListener('click', async function () {
         const email = document.getElementById('email').value;
         const password = document.getElementById('password').value;
         const passwordConfirm = document.getElementById('passwordConfirm').value;
@@ -72,9 +74,19 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('nickname-help-text').style.display = 'block'; // 닉네임 오류 시 help-text 표시
             return;
         }
-
+        let profileImageUrl='../img/profile.png';
+        if (imageUploadInput.files.length > 0) {
+            const file = imageUploadInput.files[0];
+            profileImageUrl = await uploadProfileImage(file);
+    
+            if (!profileImageUrl) {
+                alert('프로필 이미지 업로드에 실패했습니다. 다시 시도해주세요.');
+                return;
+            }
+        }
+        
         // API 요청
-        fetch('/users', {
+        fetch('http://localhost:8080/users', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -83,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 email: email,
                 password: password,
                 nickname: nickname,
-                profileImage: 'url'  // 프로필 이미지 URL
+                profileImage: profileImageUrl  // 프로필 이미지 URL
             })
         })
         .then(response => {
@@ -118,4 +130,31 @@ function loadHeaderScript() {
     const script = document.createElement('script');
     script.src = '../script/header.js'; // 실제 header.js 경로 확인 필요
     document.body.appendChild(script);
+}
+async function uploadProfileImage(file) {
+    if (!file) {
+        console.error('파일이 선택되지 않았습니다.');
+        console.log("123");
+        return null;
+    }
+
+    const formData = new FormData();
+    formData.append('file', file); // key: 'file'
+
+    return await fetch('http://localhost:8080/images', {
+        method: 'POST',
+        body: formData,
+        mode: 'cors'
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('이미지 업로드 실패');
+        }
+        return response.json();
+    })
+    .then(data => data.data.fileUrl) // 예: { "url": "http://localhost:8080/uploads/profile123.png" }
+    .catch(error => {
+        console.error(error);
+        return null;
+    });
 }
