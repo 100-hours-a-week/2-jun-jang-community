@@ -1,5 +1,3 @@
-
-
 document.addEventListener('DOMContentLoaded', () => {
     fetch('header.html') 
         .then(response => response.text())
@@ -17,7 +15,6 @@ function loadHeaderScript() {
     document.body.appendChild(script);
 }
 
-
 document.addEventListener("DOMContentLoaded", function () {
     const loginForm = document.querySelector(".login-form");
     const emailInput = document.getElementById("email");
@@ -30,57 +27,91 @@ document.addEventListener("DOMContentLoaded", function () {
     const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
     const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,20}$/;
 
-
-    
     // 입력 시 실시간 유효성 검사
     function validateInputs() {
         const isEmailValid = emailPattern.test(emailInput.value);
         const isPasswordValid = passwordPattern.test(passwordInput.value);
-        let isValid=true;
-         // 이메일 유효성 검사
+        let isValid = true;
+
         if (!isEmailValid) {
             helper.textContent = "올바른 이메일 주소를 입력해주세요.";
             helper.style.color = "red";
             isValid = false;
-        }else{
+        } else {
             helper.textContent = "";
         }
-        // 비밀번호 유효성 검사
+
         if (!isPasswordValid) {
             helper.textContent = "비밀번호는 8~20자이며, 대소문자/숫자/특수문자를 포함해야 합니다.";
             helper.style.color = "red";
             isValid = false;
-        }else if(isValid){
+        } else if (isValid) {
             helper.textContent = "";
         }
-        if (isValid) {
-            loginButton.style.backgroundColor = "#7F6AEE"; // 유효성 통과 시 색 변경
-            loginButton.disabled = false;
-        } else {
-            loginButton.style.backgroundColor = "#ACA0EB"; // 기본 색상
-            loginButton.disabled = true;
-        }
-        
+
+        loginButton.style.backgroundColor = isValid ? "#7F6AEE" : "#ACA0EB";
+        loginButton.disabled = !isValid;
     }
 
-    // 입력 필드에 이벤트 리스너 추가
     emailInput.addEventListener("input", validateInputs);
     passwordInput.addEventListener("input", validateInputs);
 
-    // 폼 제출 이벤트
-    loginForm.addEventListener("submit", (event)=> {
-        event.preventDefault(); // 기본 제출 방지
-        window.location.href = "postsPage.html";
-        
+    function setCookie(name, value, days) {
+        let expires = "";
+        if (days) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + value + "; path=/" + expires;
+    }
+
+    loginForm.addEventListener("submit", async (event) => {
+        event.preventDefault();
+
+        const email = emailInput.value;
+        const password = passwordInput.value;
+
+        try {
+            const response = await fetch("http://localhost:8080/users/token", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, password })
+            });
+
+            if (!response.ok) {
+                throw new Error("API 요청 실패");
+            }
+
+            const data = await response.json();
+            console.log("로그인 성공:", data);
+
+            if (data.success && data.data?.accessToken) {
+                setCookie("accessToken", data.data.accessToken, 7);
+                setCookie("refreshToken", data.data.refreshToken, 7);
+                window.location.href = `postsPage.html`;
+            } else {
+                throw new Error("로그인 실패: 응답 데이터 오류");
+            }
+        } catch (error) {
+            console.log("API 요청 실패, 로컬 인증 시작");
+
+            if (email === "test@email.com" && password === "PASSword@1234") {
+                setCookie("accessToken", "dummyAccessToken", 7);
+                setCookie("refreshToken", "dummyRefreshToken", 7);
+                window.location.href = "postsPage.html?userId=1";
+            } else {
+                helper.textContent = "로그인 실패: 이메일 또는 비밀번호를 확인해주세요.";
+                helper.style.color = "red";
+            }
+        }
     });
 
-    // 회원가입 버튼 클릭 이벤트
-    signUpButton.addEventListener("click", (event)=> {
+    signUpButton.addEventListener("click", (event) => {
         event.preventDefault();
         window.location.href = "signUpPage.html";
     });
 
-    // 페이지 로드 시 버튼 비활성화
     loginButton.style.backgroundColor = "#ACA0EB";
     loginButton.disabled = true;
 });

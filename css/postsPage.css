@@ -238,3 +238,13 @@ body {
 .profile-menu li:hover {
     background-color: #bfbfbf;
 }
+/* back-button만 숨기도록 수정 */
+/* back-button만 숨기기 */
+.back-button {
+    display: none !important;
+}
+
+/* profileModify 링크는 그대로 보이게 */
+#profileModify, #passwordModify, #logout {
+    display: block !important;  /* 필요에 따라 이 스타일을 적용 */
+}
