@@ -1,4 +1,4 @@
-const API_BASE_URL = "http://localhost:8080"; // ✅ 전역 변수로 설정
+const API_BASE_URL = "https://api.juncommunity.store"; // ✅ 전역 변수로 설정
 
 document.addEventListener("DOMContentLoaded", async () => {
     console.log("📌 DOMContentLoaded 이벤트 발생");

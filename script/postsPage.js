@@ -2,7 +2,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     const postsContainer = document.querySelector('.posts-list-container');
     const writeButton = document.querySelector('.write-btn');
 
-    const API_BASE_URL = "http://localhost:8080";
+    const API_BASE_URL = "https://api.juncommunity.store";
     let currentPage = 0;
     const offset = 20;
     let hasMorePosts = true; // 더 불러올 게시물이 있는지 확인

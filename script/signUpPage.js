@@ -86,7 +86,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         
         // API 요청
-        fetch('http://localhost:8080/users', {
+        fetch('https://api.juncommunity.store/users', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
@@ -141,7 +141,7 @@ async function uploadProfileImage(file) {
     const formData = new FormData();
     formData.append('file', file); // key: 'file'
 
-    return await fetch('http://localhost:8080/images', {
+    return await fetch('https://api.juncommunity.store/images', {
         method: 'POST',
         body: formData,
         mode: 'cors'
