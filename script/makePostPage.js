@@ -62,7 +62,7 @@ async function uploadPostImage(file) {
     formData.append('file', file);
 
     try {
-        const response = await fetch('http://localhost:8080/images', {
+        const response = await fetch('https://api.juncommunity.store/images', {
             method: 'POST',
             body: formData
         });
@@ -77,34 +77,7 @@ async function uploadPostImage(file) {
     }
 }
 
-// 🔹 accessToken 만료 시 refreshToken으로 갱신
-async function refreshToken() {
-    const refreshToken = getCookie("refreshToken");
-    if (!refreshToken) return null;
 
-    try {
-        const response = await fetch("http://localhost:8080/users/token/refresh", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ refreshToken })
-        });
-
-        if (!response.ok) {
-            console.warn("RefreshToken 만료됨. 로그인 페이지로 이동.");
-            document.cookie = "accessToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-            document.cookie = "refreshToken=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-            window.location.href = "loginPage.html";
-            return null;
-        }
-
-        const data = await response.json();
-        document.cookie = `accessToken=${data.data.accessToken}; path=/`;
-        return data.data.accessToken;
-    } catch (error) {
-        console.error("토큰 갱신 오류:", error);
-        return null;
-    }
-}
 
 // 🔹 게시글 작성 API 요청
 async function handleSubmit(event) {
@@ -136,7 +109,7 @@ async function handleSubmit(event) {
     };
 
     try {
-        let response = await fetch('http://localhost:8080/posts', {
+        let response = await fetch('https://api.juncommunity.store/posts', {
             method: 'POST',
             headers: {
                 'Authorization': `Bearer ${accessToken}`,
@@ -150,7 +123,7 @@ async function handleSubmit(event) {
 
             accessToken = await refreshToken();
             if (accessToken) {
-                response = await fetch('http://localhost:8080/posts', {
+                response = await fetch('https://api.juncommunity.store/posts', {
                     method: 'POST',
                     headers: {
                         'Authorization': `Bearer ${accessToken}`,

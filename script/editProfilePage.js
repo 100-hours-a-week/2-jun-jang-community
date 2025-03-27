@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     let isNewImageUploaded = false;
 
     try {
-        const profileResponse = await fetch('http://localhost:8080/users/profile', {
+        const profileResponse = await fetch('https://api.juncommunity.store/users/profile', {
             method: 'GET',
             headers: {
                 'Authorization': `Bearer ${accessToken}`,
@@ -71,7 +71,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
 
         try {
-            const updateResponse = await fetch('http://localhost:8080/users/profile', {
+            const updateResponse = await fetch('https://api.juncommunity.store/users/profile', {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -107,7 +107,7 @@ async function uploadImage(file) {
     let refreshTokenValue = getCookie("refreshToken");
 
     try {
-        let response = await fetch("http://localhost:8080/images", {
+        let response = await fetch("https://api.juncommunity.store/images", {
             method: "POST",
             headers: {
                 "Authorization": `Bearer ${accessToken}`,
@@ -120,7 +120,7 @@ async function uploadImage(file) {
             console.warn("🔄 AccessToken 만료됨. RefreshToken으로 재발급 시도.");
             accessToken = await refreshToken();
             if (accessToken) {
-                response = await fetch("http://localhost:8080/images", {
+                response = await fetch("https://api.juncommunity.store/images", {
                     method: "POST",
                     headers: {
                         "Authorization": `Bearer ${accessToken}`,

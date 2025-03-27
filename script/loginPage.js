@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const password = passwordInput.value;
 
         try {
-            const response = await fetch("http://localhost:8080/users/token", {
+            const response = await fetch("https://api.juncommunity.store/users/token", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ email, password })

@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         try {
-            const response = await fetch('http://localhost:8080/users/password', {
+            const response = await fetch('https://api.juncommunity.store/users/password', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

@@ -97,6 +97,9 @@ article p{
     background: none;
     padding :0
 }
+.like-count{
+    cursor: pointer;
+}
 .comments{
     display: flex;
     flex-direction: column;
