@@ -12,7 +12,15 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     submitButton.addEventListener('click', handleSubmit);
 });
+let isSubmitting = false;
 
+function showLoading() {
+    document.getElementById('loading-overlay').style.display = 'flex';
+}
+
+function hideLoading() {
+    document.getElementById('loading-overlay').style.display = 'none';
+}
 // 🔹 헤더 불러오기 및 script 추가
 async function loadHeader() {
     return new Promise((resolve) => {
@@ -79,9 +87,16 @@ async function uploadPostImage(file) {
 
 
 
-// 🔹 게시글 작성 API 요청
 async function handleSubmit(event) {
     event.preventDefault();
+
+    if (isSubmitting) return;
+    isSubmitting = true;
+    showLoading();
+
+    const submitButton = document.querySelector('button[type="submit"]');
+    submitButton.disabled = true;
+    submitButton.textContent = '작성 중...';
 
     const title = document.getElementById('title').value;
     const content = document.getElementById('content').value;
@@ -89,7 +104,6 @@ async function handleSubmit(event) {
 
     let accessToken = getCookie("accessToken");
     if (!accessToken) {
-        console.warn("인증 필요. 로그인 페이지로 이동.");
         window.location.href = "loginPage.html";
         return;
     }
@@ -98,7 +112,7 @@ async function handleSubmit(event) {
     if (imageFile) {
         imageUrl = await uploadPostImage(imageFile);
         if (!imageUrl) {
-            console.error("이미지 업로드 실패. 텍스트 게시만 진행.");
+            console.warn("이미지 업로드 실패");
         }
     }
 
@@ -119,8 +133,6 @@ async function handleSubmit(event) {
         });
 
         if (response.status === 401) {
-            console.warn("AccessToken 만료됨. RefreshToken으로 재발급 시도.");
-
             accessToken = await refreshToken();
             if (accessToken) {
                 response = await fetch('https://api.juncommunity.store/posts', {
@@ -144,5 +156,10 @@ async function handleSubmit(event) {
     } catch (error) {
         console.error("게시글 작성 오류:", error);
         window.location.href = 'postsPage.html';
+    } finally {
+        isSubmitting = false;
+        hideLoading();
+        submitButton.disabled = false;
+        submitButton.textContent = '작성하기';
     }
 }
