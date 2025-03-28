@@ -73,6 +73,7 @@ article p{
     border-radius: 10px;
     background: none;
     border-color: #ACA0EB;
+    cursor: pointer;
 }
 .stat-container{
     width:100%;
