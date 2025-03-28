@@ -57,20 +57,23 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     document.querySelector('.submit-btn').addEventListener('click', async function() {
+        if (isUpdating) return;
+        isUpdating = true;
+        showLoading();
+    
         const nickname = document.getElementById('nickname').value;
         let updatedProfileImage = currentProfileImage;
-        
-        if (isNewImageUploaded) {
-            console.log("🔄 새 이미지 업로드 진행 중...");
-            updatedProfileImage = await uploadImage(imageUploadInput.files[0]);
-        }
-
-        if (!updatedProfileImage) {
-            console.error("🚨 이미지 업로드 실패. 기존 프로필 이미지 유지.");
-            updatedProfileImage = currentProfileImage;
-        }
-
+    
         try {
+            if (isNewImageUploaded) {
+                updatedProfileImage = await uploadImage(imageUploadInput.files[0]);
+            }
+    
+            if (!updatedProfileImage) {
+                console.warn("이미지 업로드 실패. 기존 이미지 유지.");
+                updatedProfileImage = currentProfileImage;
+            }
+    
             const updateResponse = await fetch('https://api.juncommunity.store/users/profile', {
                 method: 'PATCH',
                 headers: {
@@ -83,8 +86,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                     profileImage: updatedProfileImage
                 })
             });
-            
+    
             const updateData = await updateResponse.json();
+    
             if (updateData.success) {
                 showToast('수정 완료');
                 setTimeout(() => window.location.href = 'postsPage.html', 3000);
@@ -93,9 +97,21 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
         } catch (error) {
             console.error('프로필 수정 중 오류 발생:', error);
+        } finally {
+            hideLoading();
+            isUpdating = false;
         }
     });
 });
+let isUpdating = false;
+
+function showLoading() {
+    document.getElementById('loading-overlay').style.display = 'flex';
+}
+
+function hideLoading() {
+    document.getElementById('loading-overlay').style.display = 'none';
+}
 
 async function uploadImage(file) {
     if (!file) return null;

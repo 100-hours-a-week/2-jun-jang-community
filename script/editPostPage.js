@@ -30,33 +30,49 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+let isUpdating = false;
+
+function showLoading() {
+    document.getElementById('loading-overlay').style.display = 'flex';
+}
+
+function hideLoading() {
+    document.getElementById('loading-overlay').style.display = 'none';
+}
+
 async function updatePost() {
-    const postId = localStorage.getItem("postId");
-    const title = document.getElementById("title").value;
-    const content = document.getElementById("content").value;
+    if (isUpdating) return;
+    isUpdating = true;
+    showLoading();
 
-    let accessToken = getCookie("accessToken");
-    let refreshTokenValue = getCookie("refreshToken");
+    try {
+        const postId = localStorage.getItem("postId");
+        const title = document.getElementById("title").value;
+        const content = document.getElementById("content").value;
 
-    if (!accessToken || !refreshTokenValue) {
-        console.warn("❌ 인증 토큰 없음. 로그인 페이지로 이동.");
-        window.location.href = "loginPage.html";
-        return;
+        let accessToken = getCookie("accessToken");
+        let refreshTokenValue = getCookie("refreshToken");
+
+        if (!accessToken || !refreshTokenValue) {
+            window.location.href = "loginPage.html";
+            return;
+        }
+
+        let contentImage = localStorage.getItem("articleImg");
+
+        const fileInput = document.getElementById("file-upload");
+        if (fileInput && fileInput.files.length > 0) {
+            const file = fileInput.files[0];
+            contentImage = await uploadImage(file);
+        }
+
+        await sendPatchRequest(contentImage);
+    } catch (error) {
+        console.error("🚨 게시글 수정 중 오류:", error);
+    } finally {
+        isUpdating = false;
+        hideLoading();
     }
-
-    let contentImage = localStorage.getItem("articleImg"); // 기존 이미지 유지
-
-    // ✅ 새로운 이미지가 업로드되었는지 확인
-    const fileInput = document.getElementById("file-upload");
-    if (fileInput && fileInput.files.length > 0) {
-        const file = fileInput.files[0];
-        console.log("📤 새로운 이미지 업로드 시작:", file.name);
-        contentImage = await uploadImage(file); // ✅ 업로드된 이미지 URL을 가져옴
-    }
-
-    console.log("🔍 최종 이미지 URL:", contentImage);
-
-    await sendPatchRequest(contentImage); // ✅ 수정 요청 실행
 }
 
 // ✅ 이미지 업로드 API (변경됨: fileUrl을 반환)

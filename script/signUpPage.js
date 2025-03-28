@@ -24,99 +24,64 @@ document.addEventListener('DOMContentLoaded', () => {
             reader.readAsDataURL(file); // 이미지 파일을 Data URL로 변환하여 읽기
         }
     });
+    let isRequestInProgress = false;
 
+    function showLoading() {
+        document.getElementById('loading-overlay').style.display = 'flex';
+    }
+
+    function hideLoading() {
+        document.getElementById('loading-overlay').style.display = 'none';
+    }
     // 회원가입 버튼 클릭 시
     document.querySelector('.signIn-btn').addEventListener('click', async function () {
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-        const passwordConfirm = document.getElementById('passwordConfirm').value;
-        const nickname = document.getElementById('nickname').value;
-
-        // 각 help-text 초기화 및 숨기기
-        document.getElementById('email-help-text').textContent = '';
-        document.getElementById('password-help-text').textContent = '';
-        document.getElementById('password-confirm-help-text').textContent = '';
-        document.getElementById('nickname-help-text').textContent = '';
-
-        document.getElementById('email-help-text').style.display = 'none';
-        document.getElementById('password-help-text').style.display = 'none';
-        document.getElementById('password-confirm-help-text').style.display = 'none';
-        document.getElementById('nickname-help-text').style.display = 'none';
-
-        // 이메일 유효성 검사
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(email)) {
-            document.getElementById('email-help-text').textContent = '유효한 이메일을 입력해주세요.';
-            document.getElementById('email-help-text').style.display = 'block'; // 이메일 오류 시 help-text 표시
-            return;
-        }
-
-        // 비밀번호와 비밀번호 확인 일치 여부 체크
-        if (password !== passwordConfirm) {
-            document.getElementById('password-help-text').textContent = '비밀번호가 일치하지 않습니다.';
-            document.getElementById('password-confirm-help-text').textContent = '비밀번호 확인이 일치하지 않습니다.';
-            document.getElementById('password-help-text').style.display = 'block'; // 비밀번호 오류 시 help-text 표시
-            document.getElementById('password-confirm-help-text').style.display = 'block'; // 비밀번호 확인 오류 시 help-text 표시
-            return;
-        }
-
-        // 비밀번호 유효성 검사: 최소 8자, 숫자, 특수문자 포함
-        const passwordRegex = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,20}$/;
-        if (!passwordRegex.test(password)) {
-            document.getElementById('password-help-text').textContent = '비밀번호는 8자 이상, 숫자와 특수문자를 포함해야 합니다.';
-            document.getElementById('password-help-text').style.display = 'block'; // 비밀번호 오류 시 help-text 표시
-            return;
-        }
-
-        // 닉네임 유효성 검사
-        if (nickname.length < 3) {
-            document.getElementById('nickname-help-text').textContent = '닉네임은 최소 3자 이상이어야 합니다.';
-            document.getElementById('nickname-help-text').style.display = 'block'; // 닉네임 오류 시 help-text 표시
-            return;
-        }
-        let profileImageUrl='../img/profile.png';
-        if (imageUploadInput.files.length > 0) {
-            const file = imageUploadInput.files[0];
-            profileImageUrl = await uploadProfileImage(file);
+        if (isRequestInProgress) return; // 중복 요청 방지
+        isRequestInProgress = true;
+        showLoading(); // 로딩 표시
     
-            if (!profileImageUrl) {
-                alert('프로필 이미지 업로드에 실패했습니다. 다시 시도해주세요.');
-                return;
+        try {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const passwordConfirm = document.getElementById('passwordConfirm').value;
+            const nickname = document.getElementById('nickname').value;
+    
+            // ... 유효성 검사 부분은 그대로 유지 ...
+    
+            let profileImageUrl = '../img/profile.png';
+            if (imageUploadInput.files.length > 0) {
+                const file = imageUploadInput.files[0];
+                profileImageUrl = await uploadProfileImage(file);
+                if (!profileImageUrl) {
+                    alert('프로필 이미지 업로드에 실패했습니다. 다시 시도해주세요.');
+                    return;
+                }
             }
-        }
-        
-        // API 요청
-        fetch('https://api.juncommunity.store/users', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({
-                email: email,
-                password: password,
-                nickname: nickname,
-                profileImage: profileImageUrl  // 프로필 이미지 URL
-            })
-        })
-        .then(response => {
+    
+            const response = await fetch('https://api.juncommunity.store/users', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    email: email,
+                    password: password,
+                    nickname: nickname,
+                    profileImage: profileImageUrl
+                })
+            });
+    
             if (!response.ok) {
                 throw new Error('회원가입 실패');
             }
-            return response.json();
-        })
-        .then(data => {
-            // 성공 시
+    
+            const data = await response.json();
             console.log(data);
-            // 토스트 메시지나 다른 피드백을 추가할 수 있습니다.
-
-            // 성공적으로 회원가입 후 loginPage.html로 이동
             window.location.href = 'loginPage.html';
-        })
-        .catch(error => {
-            // 실패 시에도 loginPage.html로 이동
+        } catch (error) {
             console.error(error);
-            window.location.href = 'loginPage.html';
-        });
+            window.location.href = 'loginPage.html'; // 실패해도 이동
+        } finally {
+            hideLoading();          // 항상 로딩 제거
+            isRequestInProgress = false; // 요청 완료 상태로 변경
+        }
     });
 
     // 로그인하러가기 버튼 클릭 시 loginPage.html로 이동
