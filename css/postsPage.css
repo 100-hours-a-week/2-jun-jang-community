@@ -143,6 +143,7 @@ body {
 }
 
 .post-container {
+    cursor: pointer;
     background-color: white;
     padding-left: 24px;
     padding-right: 24px;
@@ -150,7 +151,7 @@ body {
     padding-bottom: 16px;
     border-radius: 20px; /* 카드 디자인 더 부드럽게 */
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 그림자 효과 조정 */
-   
+    
 }
 .post-container h2{
     margin-bottom:10px;
@@ -164,6 +165,7 @@ body {
     justify-content: space-between;
     font-size: 14px;
     color: gray;
+    cursor: pointer;
 }
 .information{
     display: flex;

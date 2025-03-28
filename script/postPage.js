@@ -224,6 +224,9 @@ async function fetchPostData(postId, elements, currentUserId) {
         elements.writer.textContent = postData.userName;
         elements.createdAt.textContent = new Date(postData.createdAt).toLocaleString();
         elements.articleImg.src = postData.contentImage || "../img/default.jpg";
+        if (!postData.contentImage) {
+            elements.articleImg.style.display = "none";
+        }
         elements.articleContent.textContent = postData.content;
         elements.likeCount.textContent = postData.likeCount;
         elements.visitCount.textContent = postData.visitCount;

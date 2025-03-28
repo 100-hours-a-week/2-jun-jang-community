@@ -12,7 +12,7 @@ article{
     width:544px;
     height: 306px;
     object-fit: cover;
-    cursor: pointer;
+    
     margin-bottom: 24px;
 }
 article p{
@@ -73,6 +73,7 @@ article p{
     border-radius: 10px;
     background: none;
     border-color: #ACA0EB;
+    cursor: pointer;
 }
 .stat-container{
     width:100%;
@@ -92,6 +93,21 @@ article p{
     width:116px;
     height:77px;
     padding :12px 0px;
+}
+.stat-like{
+    justify-items: center;
+    background-color: #D9D9D9;
+    font-size:16px;
+    font-weight: 700;
+    border-radius: 16px;
+    width:116px;
+    height:77px;
+    padding :12px 0px;
+    cursor: pointer;
+}
+.stat-like p{
+    background: none;
+    padding: 0;
 }
 .stat p{
     background: none;
@@ -174,6 +190,7 @@ article p{
 .comment-buttons{
     align-items: center;
     padding-top:3%;
+    
 }
 .comment-buttons button{
     width:50px;
@@ -181,4 +198,8 @@ article p{
     border-radius: 10px;
     background: none;
     border-color: #ACA0EB;
+    cursor: pointer;
+}
+.comment-write button{
+    cursor:pointer;
 }

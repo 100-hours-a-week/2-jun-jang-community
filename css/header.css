@@ -78,3 +78,6 @@ header {
     background-color: #000;
     margin: 0;
 }
+.back-button {
+    cursor: pointer;
+}
